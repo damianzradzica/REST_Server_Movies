@@ -13,12 +13,26 @@ class MoviesList(APIView):
         movie = Movies.objects.all()
         serializer = MoviesSerializer(movie, many = True, context={"request": request})
         return Response(serializer.data)
+    
+    def post(self, request, format=None):
+        movie = Movies.objects.create()
+        serializer = MoviesSerializer(movie, data=request.data, context={"request": request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
 
 class PersonList(APIView):
     def get(self, request, format=None):
         person = Person.objects.all()
         serializer = PersonSerializer(person, many = True, context={"request": request})
         return Response(serializer.data)
+    
+    def post(self, request, format=None):
+        person = Person.objects.create()
+        serializer = PersonSerializer(person, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
 
 class PersonView(APIView):
     def get_object(self, pk):
@@ -44,7 +58,6 @@ class PersonView(APIView):
             serializer.save()
             return Response(serializer.data)
     
-    
 class MovieView(APIView):
     def get_object(self, pk):
         try:
@@ -68,6 +81,7 @@ class MovieView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
+        
         
         
         

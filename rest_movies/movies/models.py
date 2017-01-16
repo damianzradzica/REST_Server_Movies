@@ -12,9 +12,9 @@ class Person(models.Model):
 class Movies(models.Model):
     title = models.CharField(max_length=64)
     description = models.TextField()
-    director = models.ForeignKey(Person, related_name = 'movie_director')
-    actors = models.ManyToManyField(Person, through = 'Role', blank = True, related_name = 'movie_actors')
-    year = models.IntegerField()
+    director = models.ForeignKey(Person, related_name = 'movie_director', null = True)
+    actors = models.ManyToManyField(Person, through = 'Role', blank = True, related_name = 'movie_actors',  null = True)
+    year = models.IntegerField(null=True)
     
     def __str__(self):
         return self.title
